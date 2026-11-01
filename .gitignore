@@ -1,0 +1,3 @@
+# Files taken from the user's own phone (firmware, calibrations).
+# They are Nokia/Microsoft/Qualcomm property: never commit them.
+/proprietary-local/
