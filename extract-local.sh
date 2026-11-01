@@ -75,6 +75,24 @@ for img in adsp modem wcnss venus; do
 done
 cp -p "$src/split/mba.b00" "$fw/mba.b00"
 
+# The PIL of the 3.4 kernel loads the modem boot authenticator as
+# mba.mdt + mba.b00. qcdsp1v28974.mbn is an ELF with a single segment and no
+# hash segment, so the splitter writes only mba.b00: mba.mdt is the ELF
+# header plus the program headers of the original image.
+python3 -I - "$src/stock/Windows/system32/qcdsp1v28974.mbn" "$fw/mba.mdt" "$fw/mba.b00" <<'PY'
+import struct, sys
+d = open(sys.argv[1], 'rb').read()
+if d[:4] != b'\x7fELF':
+    sys.exit('qcdsp1v28974.mbn is not an ELF image')
+phoff, = struct.unpack_from('<I', d, 28)
+phentsize, phnum = struct.unpack_from('<HH', d, 42)
+seg = open(sys.argv[3], 'rb').read()
+_, off, _, _, filesz = struct.unpack_from('<5I', d, phoff)
+if phnum != 1 or d[off:off + filesz] != seg:
+    sys.exit('mba.b00 does not match the single segment of qcdsp1v28974.mbn')
+open(sys.argv[2], 'wb').write(d[:phoff + phentsize * phnum])
+PY
+
 # WCNSS binary configuration: qcwlan8974cfg.dat has the same format as
 # Android's WCNSS_cfg.dat (magic 01 0c 03 0b), tuned for the 1520 board.
 sys32="$src/stock/Windows/system32"

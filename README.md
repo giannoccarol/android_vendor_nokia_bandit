@@ -23,7 +23,7 @@ Run it in every checkout you build from (for example
 | From the phone (`stock/Windows/system32`, `split/`) | Installed as |
 |---|---|
 | `qcadsp8974.mbn` → `adsp.mdt/.bNN` | `/vendor/firmware/adsp.*` |
-| `qcdsp28974.mbn` → `modem.mdt/.bNN`, `qcdsp1v28974.mbn` → `mba.b00` | `/vendor/firmware/modem.*`, `mba.b00` |
+| `qcdsp28974.mbn` → `modem.mdt/.bNN`, `qcdsp1v28974.mbn` → `mba.b00` + `mba.mdt` (headers) | `/vendor/firmware/modem.*`, `mba.mdt`, `mba.b00` |
 | `qcwcnss8974.mbn` → `wcnss.mdt/.bNN` | `/vendor/firmware/wcnss.*` |
 | `qcvss8974.mbn` → `venus.mdt/.bNN` | `/vendor/firmware/venus.*` |
 | `qcwlan8974cfg.dat` (same format as `WCNSS_cfg.dat`) | `/vendor/firmware/wlan/prima/WCNSS_cfg.dat` |
